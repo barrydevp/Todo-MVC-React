@@ -1,28 +1,33 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import "./TodoApp.css";
-// import _ from "lodash";
+
 import TodoList from "./TodoList";
+import { todoActions } from "../../store/actions";
 
-export default class TodoApp extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			// todoItems: [{ title: "hello", isComplete: true }, { title: "world" }]
-		};
-	}
-
-	render() {
-		const { todoItems } = this.state;
-
-		return (
-			<React.Fragment>
-				<div className="todo-app">
-					<TodoList todoItems={todoItems}>
-						{<TodoList todoItems={todoItems} />}
-					</TodoList>
-				</div>
-			</React.Fragment>
-		);
-	}
+class TodoApp extends Component {
+  render() {
+    return (
+      <React.Fragment>
+        <div className="todo-app">
+          <TodoList {...this.props}>
+            {/* {<TodoList todoItems={todoItems} />} */}
+          </TodoList>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
+
+const mapStateToProps = (state /*, ownProps*/) => {
+  return {
+    todoItems: state.todoItems
+  };
+};
+
+const mapDispatchToProps = {
+  ...todoActions
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoApp);
